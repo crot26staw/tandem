@@ -23,6 +23,7 @@ function htmlMinify() {
 }
 
 export default defineConfig({
+  base: '/tandem/',
   plugins: [htmlMinify()],
   server: {
     port: 5173,
