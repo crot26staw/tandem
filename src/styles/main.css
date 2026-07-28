@@ -70,6 +70,25 @@ h3 {
   font-weight: 700;
 }
 
+/* Общий акцент: выделяем ключевую мысль внутри текста.
+   Используется в заголовках и абзацах по всему сайту. */
+.accent {
+  color: var(--c-accent);
+}
+
+/* Текст только для скринридеров: уточняет короткие ссылки вроде «Подробнее» */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 :target {
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
@@ -454,11 +473,6 @@ h3 {
   margin-bottom: 18px;
 }
 
-/* Ключевая выгода в заголовке — акцентным цветом */
-.hero__accent {
-  color: var(--c-accent);
-}
-
 .hero__subtitle {
   max-width: 560px;
   margin-bottom: 28px;
@@ -701,6 +715,7 @@ h3 {
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 28px 24px;
@@ -763,6 +778,91 @@ h3 {
   padding-top: 18px;
 }
 
+/* Кликабельна вся карточка: ссылка «Подробнее» растягивается на весь блок.
+   Разметка остается семантичной — внутри карточки одна ссылка. */
+.card--service .card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* Стрелка реагирует на наведение в любой точке карточки */
+.card--service:hover .card__link {
+  gap: 11px;
+}
+
+/* Фокус с клавиатуры подсвечивает карточку целиком, а не строку ссылки.
+   Без поддержки :has остается обычная обводка вокруг самой ссылки. */
+@supports selector(:has(*)) {
+  .card--service:has(.card__link:focus-visible) {
+    outline: 3px solid var(--c-accent);
+    outline-offset: 3px;
+  }
+
+  .card--service .card__link:focus-visible {
+    outline: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   3D-наклон карточки под курсором.
+   Класс tilt ставит JS (только мышь, без prefers-reduced-motion),
+   углы и позицию тени он же отдает в переменных --tilt-*.
+   ------------------------------------------------------------ */
+@media (hover: hover) and (pointer: fine) {
+  .card.tilt {
+    transform-style: preserve-3d;
+    /* Возврат в плоскость — плавный, сам наклон переключается ниже */
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.2s ease;
+  }
+
+  /* Перебиваем обычный .card:hover: наклон вместо простого подъема */
+  .card.tilt:hover {
+    transform: perspective(900px) translateY(-3px) rotateX(var(--tilt-rx, 0deg))
+      rotateY(var(--tilt-ry, 0deg));
+  }
+
+  /* Пока курсор внутри — идем за ним почти без задержки,
+     приподнятая карточка перекрывает соседние */
+  .card.tilt.is-tilting {
+    z-index: 1;
+    will-change: transform;
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+    box-shadow: var(--tilt-sx, 0px) calc(10px + var(--tilt-sy, 0px)) 30px
+      rgba(31, 41, 55, 0.14);
+  }
+
+  /* Мягкая тень в точке продавливания — она же читается как объем */
+  .card.tilt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+      rgba(31, 41, 55, 0.08),
+      rgba(31, 41, 55, 0) 60%
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .card.tilt.is-tilting::after {
+    opacity: 1;
+  }
+
+  /* Иконка выходит вперед по оси Z — усиливает перспективу */
+  .card.tilt .card__icon {
+    transition: transform 0.3s ease;
+  }
+
+  .card.tilt.is-tilting .card__icon {
+    transform: translateZ(18px);
+  }
+}
+
 /* ============================================================
    ТАЙМЛАЙН (Как мы работаем)
    Мобайл — вертикальный список, десктоп — горизонтальный
@@ -818,21 +918,8 @@ h3 {
   text-align: center;
 }
 
-/* Поочередное появление шагов при скролле.
-   Класс has-reveal ставит JS — без него шаги видны сразу */
-.has-reveal .timeline__item {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 2s ease,
-    transform 2s ease;
-  transition-delay: var(--reveal-delay, 0s);
-}
-
-.has-reveal .timeline__item.is-visible {
-  opacity: 1;
-  transform: none;
-}
+/* Поочередное появление шагов при скролле ведет GSAP (src/js/reveal.js):
+   начальное состояние и анимацию он ставит инлайново, CSS тут не нужен */
 
 /* ============================================================
    FAQ (аккордеон)
@@ -1043,6 +1130,44 @@ h3 {
   stroke-width: 2.4;
   stroke-linejoin: round;
   opacity: 0.55;
+}
+
+/* Самолетик летит по той же траектории, что нарисована пунктиром.
+   Строка path() должна совпадать с атрибутом d у .cta-art__path.
+   Без поддержки offset-path остается статичный transform из разметки. */
+@supports (offset-path: path('M0 0')) {
+  .cta-art__plane {
+    offset-path: path(
+      'M-20 336C170 316 250 176 452 164 654 152 760 268 936 214 1007 192 1140 160 1230 168'
+    );
+    /* Якорь в локальном нуле — самолетик нарисован от своего центра */
+    offset-anchor: 0 0;
+    /* Нос повернут на -45° в своих координатах, компенсируем — тогда он
+       смотрит точно по касательной к траектории */
+    offset-rotate: auto 45deg;
+    offset-distance: 100%;
+    transform: none;
+    animation: cta-plane-fly 6s linear infinite;
+  }
+}
+
+/* Пролет за 6 секунд. Появление и уход гасим прозрачностью,
+   чтобы возврат в начало не читался как рывок. */
+@keyframes cta-plane-fly {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  90% {
+    opacity: 0.55;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
 }
 
 .cta-art__bubble {
@@ -1557,12 +1682,11 @@ h3 {
     transition-duration: 0.01ms !important;
   }
 
-  /* Шаги показываем сразу, без сдвига и задержек */
-  .has-reveal .timeline__item {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    transition-delay: 0s;
+  /* Самолетик не летает — просто стоит в конце траектории */
+  .cta-art__plane {
+    animation: none !important;
+    offset-distance: 100%;
+    opacity: 0.55;
   }
 
   /* Лид-кнопки остаются статичными, без кольца и блика */
