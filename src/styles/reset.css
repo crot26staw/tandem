@@ -6,6 +6,12 @@
   padding: 0;
 }
 
+/* Браузерный [hidden] задан как display:none без класса, поэтому любой
+   компонент со своим display его перебивает. Возвращаем атрибуту силу. */
+[hidden] {
+  display: none !important;
+}
+
 img,
 picture,
 video,

@@ -899,6 +899,319 @@ h3 {
 }
 
 /* ============================================================
+   СТРАНИЦА ЦЕН: карточки вилок и блок «входит всегда»
+   ============================================================ */
+.prices-hero .section__head {
+  max-width: 720px;
+}
+
+.card--price .card__text--note {
+  color: var(--c-muted);
+  font-size: 15px;
+}
+
+.price-card__value {
+  margin-top: 16px;
+  color: var(--c-graphite);
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.price-card__weeks {
+  margin-top: 4px;
+  margin-bottom: 18px;
+  color: var(--c-muted);
+  font-size: 15px;
+}
+
+/* Ссылка «Рассчитать точнее» прижата к низу — карточки разной
+   высоты выглядят единообразно */
+.card--price .card__link {
+  margin-top: auto;
+}
+
+/* Пояснение под карточками вилок: цифры выше — за типовой проект */
+.prices-note {
+  margin-top: 20px;
+  color: var(--c-muted);
+  font-size: 15px;
+}
+
+/* Пара блоков «входит / считается отдельно». Держим их рядом:
+   обещание без оговорки читается как «все включено». */
+.price-scope {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.price-included,
+.price-extra {
+  padding: 20px 22px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  color: var(--c-graphite-700);
+  font-size: 15.5px;
+}
+
+.price-included {
+  background: var(--c-accent-soft);
+}
+
+/* Нейтральный фон: это не плохая новость, а условие — пугать не надо */
+.price-extra {
+  background: var(--c-surface);
+}
+
+/* ============================================================
+   КВИЗ-КАЛЬКУЛЯТОР
+   Блок графитовый: так к нему подходят готовые стили формы,
+   полей и переключателя канала связи.
+   ============================================================ */
+.quiz {
+  /* Квиз прокручивает к себе сам при смене шага, а :target здесь
+     не срабатывает — отступ под липкую шапку задаем явно */
+  scroll-margin-top: calc(var(--header-h) + 16px);
+  padding: 24px 20px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--c-graphite);
+  color: var(--c-white);
+  box-shadow: var(--shadow-md);
+}
+
+.quiz__counter {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.quiz__progress {
+  height: 4px;
+  margin-bottom: 26px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.quiz__bar {
+  display: block;
+  width: 20%;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--c-accent);
+  transition: width 0.35s ease;
+}
+
+.quiz__question {
+  margin-bottom: 6px;
+  font-size: clamp(19px, 4.5vw, 24px);
+}
+
+.quiz__hint {
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14.5px;
+}
+
+.quiz__options {
+  display: grid;
+  gap: 10px;
+}
+
+/* Вариант ответа — крупная мишень: попасть пальцем важнее компактности */
+.quiz__option {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--c-white);
+  font-family: inherit;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.quiz__option:hover {
+  border-color: var(--c-accent);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.quiz__option:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.quiz__option.is-picked {
+  border-color: var(--c-accent);
+  background: rgba(255, 107, 0, 0.16);
+}
+
+.quiz__option-note {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 14px;
+}
+
+/* Вариант с галочкой: сам чекбокс скрыт, состояние показывает рамка */
+.quiz__option--check {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.quiz__checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--c-accent);
+  cursor: pointer;
+}
+
+.quiz__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+/* Когда «Назад» скрыта, «Далее» должна остаться справа */
+.quiz__foot [data-quiz-next] {
+  margin-left: auto;
+}
+
+/* Ghost-кнопка сделана для светлых секций: на графите ее текст не виден */
+.quiz__foot .btn--ghost {
+  color: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.22);
+}
+
+.quiz__foot .btn--ghost:hover {
+  color: var(--c-white);
+  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
+}
+
+/* Результат */
+.quiz__result-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.quiz__price {
+  margin-top: 6px;
+  color: var(--c-accent);
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.quiz__weeks {
+  margin-top: 2px;
+  font-size: 17px;
+}
+
+.quiz__disclaimer {
+  margin: 14px 0 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+/* Оговорка стоит вплотную к сумме, поэтому первая фраза должна
+   читаться, а не теряться в приглушенном тексте */
+.quiz__disclaimer-strong {
+  display: block;
+  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* ============================================================
+   ТАБЛИЦА СРАВНЕНИЯ (Агентство / Фрилансер / Мы)
+   На узких экранах уезжает в горизонтальную прокрутку,
+   колонка с названиями строк залипает — иначе, пролистав
+   вправо, не понять, о какой строке речь.
+   ============================================================ */
+.compare {
+  margin-top: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  background: var(--c-white);
+}
+
+.compare__table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 15px;
+}
+
+.compare__table th,
+.compare__table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-border);
+  vertical-align: top;
+}
+
+.compare__table tbody tr:last-child th,
+.compare__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Шапка: названия колонок */
+.compare__table thead th {
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  white-space: nowrap;
+}
+
+/* Названия строк — залипают при прокрутке вбок */
+.compare__table tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 148px;
+  background: var(--c-white);
+  color: var(--c-graphite);
+  font-weight: 600;
+}
+
+/* Угловая ячейка едет вместе с колонкой названий */
+.compare__corner {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--c-white);
+}
+
+.compare__table td {
+  color: var(--c-muted);
+}
+
+/* Своя колонка выделена подложкой и обычным цветом текста */
+.compare__table .compare__us {
+  background: var(--c-accent-soft);
+  color: var(--c-graphite);
+}
+
+.compare__table thead .compare__us {
+  color: var(--c-accent);
+}
+
+/* ============================================================
    ТАЙМЛАЙН (Как мы работаем)
    Мобайл — вертикальный список, десктоп — горизонтальный
    ============================================================ */
@@ -1249,6 +1562,74 @@ h3 {
   gap: 14px;
 }
 
+/* Переключатель канала связи — сегментированный контрол на радиокнопках.
+   Радио настоящие, поэтому стрелки на клавиатуре работают сами. */
+.channel {
+  min-width: 0; /* у fieldset собственный min-width, он ломает сетку формы */
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.channel__legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+}
+
+.channel__options {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.channel__option {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Прячем радио, но не через display:none — иначе поле теряет фокус с клавиатуры */
+.channel__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.channel__label {
+  display: block;
+  padding: 9px 6px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.channel__label:hover {
+  color: var(--c-white);
+}
+
+.channel__input:checked + .channel__label {
+  background: var(--c-accent);
+  color: var(--c-white);
+}
+
+.channel__input:focus-visible + .channel__label {
+  outline: 2px solid var(--c-white);
+  outline-offset: 2px;
+}
+
 .field {
   display: block;
 }
@@ -1273,6 +1654,21 @@ h3 {
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
+/* Многострочное поле: те же стили, что у input, плюс ручное растягивание.
+   Горизонтальный resize ломал бы сетку формы, поэтому только по вертикали. */
+.field__textarea {
+  min-height: 88px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.field__hint {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
 .field__input::placeholder {
   color: rgba(255, 255, 255, 0.42);
 }
@@ -1287,7 +1683,54 @@ h3 {
   border-color: #f87171;
 }
 
+/* Статус связи: точка + подпись. Обе формы лежат на графите,
+   поэтому цвета одни на оба случая. */
+.work-status {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Точка идет в потоке текста, а не отдельной колонкой: при переносе
+   на две строки она остается рядом с первым словом. */
+.work-status__dot {
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Рабочее время — зеленая точка с мягкой пульсацией */
+.work-status.is-open .work-status__dot {
+  background: #4ade80;
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
+  animation: work-pulse 2.4s ease-out infinite;
+}
+
+.work-status.is-open {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Вне графика — приглушенный янтарный, без анимации */
+.work-status.is-closed .work-status__dot {
+  background: #fbbf24;
+}
+
+@keyframes work-pulse {
+  70% {
+    box-shadow: 0 0 0 7px rgba(74, 222, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  }
+}
+
 .lead-form__note {
+  margin-top: 12px;
   color: rgba(255, 255, 255, 0.55);
   font-size: 13px;
   text-align: center;
@@ -1499,6 +1942,32 @@ h3 {
 
   .grid--2 {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .channel__label {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .quiz {
+    padding: 32px 30px 26px;
+  }
+
+  .quiz__options--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .compare {
+    margin-top: 32px;
+  }
+
+  .compare__table {
+    font-size: 16px;
+  }
+
+  .compare__table th,
+  .compare__table td {
+    padding: 16px 20px;
   }
 
   /* Заголовок слева, кнопка «Все статьи» — у правого края */
@@ -1744,5 +2213,11 @@ h3 {
 
   .btn--pulse::before {
     display: none;
+  }
+
+  /* Точка статуса не пульсирует — цвет и так все сообщает */
+  .work-status.is-open .work-status__dot {
+    animation: none !important;
+    box-shadow: none;
   }
 }

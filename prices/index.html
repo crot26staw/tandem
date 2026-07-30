@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Сколько стоит разработка сайта: вилки цен на лендинг, корпоративный сайт, каталог и интернет-магазин. Рассчитайте свой проект за 4 вопроса."
+    />
+    <meta name="theme-color" content="#1F2937" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Цены на разработку сайтов — Тандем.Web</title>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <!-- ============================================================
+         ШАПКА (HEADER). Ссылки относительные: со страницы цен
+         ../ ведет на главную независимо от base в конфиге
+         ============================================================ -->
+    <header class="header" id="header">
+      <div class="container header__inner">
+        <a class="logo" href="../" aria-label="Тандем.Web — на главную">
+          <span class="logo__mark" aria-hidden="true">Т</span>
+          <span class="logo__text">Тандем<span class="logo__accent">.Web</span></span>
+        </a>
+
+        <nav class="nav" id="nav" aria-label="Основная навигация">
+          <ul class="nav__list">
+            <li class="nav__item nav__item--has-submenu">
+              <button
+                class="nav__link nav__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="submenu-services"
+              >
+                Услуги
+                <svg class="nav__chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <ul class="submenu" id="submenu-services">
+                <li><a class="submenu__link" href="../#services">Лендинги</a></li>
+                <li><a class="submenu__link" href="../#services">Корп. сайты</a></li>
+                <li><a class="submenu__link" href="../#services">Каталоги</a></li>
+                <li><a class="submenu__link" href="../#services">Магазины</a></li>
+              </ul>
+            </li>
+            <li class="nav__item"><a class="nav__link is-current" href="./" aria-current="page">Цены</a></li>
+            <li class="nav__item"><a class="nav__link" href="../#about">О нас</a></li>
+            <li class="nav__item"><a class="nav__link" href="../#contacts">Контакты</a></li>
+          </ul>
+
+          <a
+            class="btn btn--accent btn--sm btn--pulse header__cta-mobile"
+            href="#quiz"
+            data-modal-open="lead-modal"
+          >
+            Оставить заявку
+          </a>
+        </nav>
+
+        <a
+          class="btn btn--accent btn--sm header__cta btn--pulse"
+          href="#quiz"
+          data-modal-open="lead-modal"
+        >
+          Оставить заявку
+        </a>
+
+        <button
+          class="burger"
+          id="burger"
+          type="button"
+          aria-label="Открыть меню"
+          aria-expanded="false"
+          aria-controls="nav"
+        >
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ============================================================
+           ВИЛКИ ЦЕН — первый экран, цифры сразу без прелюдий
+           ============================================================ -->
+      <section class="section prices-hero">
+        <div class="container">
+          <header class="section__head">
+            <p class="hero__eyebrow">Цены</p>
+            <h1 class="section__title">Сколько стоит сайт</h1>
+            <p class="section__lead">
+              Диапазоны ниже — рабочие вилки, а не «от». Точную сумму называем после короткого
+              брифа, и она попадает в договор.
+            </p>
+          </header>
+
+          <div class="grid grid--2 price-grid" data-price-grid>
+            <!-- Карточки собирает JS из модели цены, чтобы числа жили
+                 в одном месте. Разметка ниже — запасной вариант без JS. -->
+            <noscript>
+              <p class="section__lead">
+                Включите JavaScript, чтобы увидеть расчет, либо просто напишите нам — менеджер
+                назовет цену.
+              </p>
+            </noscript>
+          </div>
+
+          <p class="prices-note">
+            Диапазоны рассчитаны на типовые проекты. Индивидуальные доработки под вашу задачу
+            в них не входят и считаются отдельной строкой — но мы называем их цену до начала
+            работы, а не в конце.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           КВИЗ-КАЛЬКУЛЯТОР
+           ============================================================ -->
+      <section class="section section--gray" id="quiz">
+        <div class="container container--narrow">
+          <header class="section__head">
+            <h2 class="section__title">Рассчитать <span class="accent">свой проект</span></h2>
+            <p class="section__lead">
+              Четыре вопроса — и вы увидите вилку по вашему проекту. Контакты спросим в конце,
+              и только если сами захотите обсудить.
+            </p>
+          </header>
+
+          <div class="quiz" data-quiz>
+            <div class="quiz__head">
+              <p class="quiz__counter">
+                Шаг <span data-quiz-current>1</span> из <span data-quiz-total>5</span>
+              </p>
+              <div class="quiz__progress">
+                <span class="quiz__bar" data-quiz-bar></span>
+              </div>
+            </div>
+
+            <!-- Шаги 1–4 рисует quiz.js -->
+            <div class="quiz__body" data-quiz-body></div>
+
+            <!-- Шаг 5: результат и заявка. Лежит статически, чтобы форму
+                 подхватил lead-form.js со своей маской и выбором канала -->
+            <div class="quiz__result" data-quiz-result hidden>
+              <p class="quiz__result-label">Предварительная оценка</p>
+              <p class="quiz__price" data-quiz-price></p>
+              <p class="quiz__weeks" data-quiz-weeks></p>
+              <p class="quiz__disclaimer">
+                <strong class="quiz__disclaimer-strong">
+                  Индивидуальные доработки в эту сумму не входят.
+                </strong>
+                Нестандартные модули, интеграции с вашими системами, сложные калькуляторы и
+                личные кабинеты считаются отдельно — их стоимость назовем на брифе, до старта
+                работ. Итог фиксируем в договоре.
+              </p>
+
+              <form class="lead-form lead-form--quiz" id="quiz-form" action="#" method="post" novalidate>
+                <!-- Ответы квиза уходят вместе с заявкой -->
+                <input type="hidden" name="quiz" data-quiz-payload />
+
+                <fieldset class="channel">
+                  <legend class="channel__legend">Как с вами связаться</legend>
+                  <div class="channel__options">
+                    <label class="channel__option">
+                      <input class="channel__input" type="radio" name="channel" value="phone" checked />
+                      <span class="channel__label">Телефон</span>
+                    </label>
+                    <label class="channel__option">
+                      <input class="channel__input" type="radio" name="channel" value="telegram" />
+                      <span class="channel__label">Telegram</span>
+                    </label>
+                    <label class="channel__option">
+                      <input class="channel__input" type="radio" name="channel" value="max" />
+                      <span class="channel__label">MAX</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <div class="lead-form__row">
+                  <label class="field">
+                    <span class="field__label">Имя</span>
+                    <input
+                      class="field__input"
+                      type="text"
+                      name="name"
+                      placeholder="Как к вам обращаться"
+                      autocomplete="name"
+                      required
+                    />
+                  </label>
+
+                  <label class="field">
+                    <span class="field__label" data-contact-label>Телефон</span>
+                    <input
+                      class="field__input"
+                      data-contact
+                      type="tel"
+                      name="contact"
+                      placeholder="+7 (___) ___ __ __"
+                      inputmode="tel"
+                      autocomplete="tel"
+                      maxlength="18"
+                      required
+                    />
+                  </label>
+                </div>
+
+                <!-- Необязательное поле: клиент сам описывает нестандартную задачу.
+                     Уходит в письмо отдельной строкой, чтобы менеджер пришел
+                     на созвон подготовленным. -->
+                <label class="field field--details">
+                  <span class="field__label">Нужна нестандартная доработка? Опишите</span>
+                  <textarea
+                    class="field__input field__textarea"
+                    name="details"
+                    rows="3"
+                    maxlength="600"
+                    placeholder="Например: личный кабинет, выгрузка заказов в 1С, калькулятор под наш прайс"
+                  ></textarea>
+                  <span class="field__hint">
+                    Необязательно. Поможет оценить доработку до разговора.
+                  </span>
+                </label>
+
+                <button class="btn btn--accent btn--lg btn--block btn--pulse" type="submit">
+                  Обсудить проект
+                </button>
+
+                <p class="work-status" data-work-status>
+                  <span class="work-status__dot" aria-hidden="true"></span>
+                  <span class="work-status__text">
+                    Связываемся в течение 15 минут в рабочее время
+                  </span>
+                </p>
+
+                <p class="lead-form__note">
+                  Нажимая кнопку, вы соглашаетесь с
+                  <a class="lead-form__policy" href="/privacy">политикой конфиденциальности</a>.
+                </p>
+              </form>
+            </div>
+
+            <div class="quiz__foot">
+              <button class="btn btn--ghost btn--sm" type="button" data-quiz-back hidden>
+                <span aria-hidden="true">←</span> Назад
+              </button>
+              <button class="btn btn--accent btn--sm" type="button" data-quiz-next hidden>
+                Далее <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           ИЗ ЧЕГО СКЛАДЫВАЕТСЯ ЦЕНА — снимает «почему так дорого»
+           и работает как текст под запрос «от чего зависит стоимость»
+           ============================================================ -->
+      <section class="section">
+        <div class="container">
+          <header class="section__head">
+            <h2 class="section__title">Из чего складывается цена</h2>
+            <p class="section__lead">
+              Мы не считаем «по ощущениям». На стоимость влияют четыре вещи — и все они обсуждаемы
+              до старта.
+            </p>
+          </header>
+
+          <div class="grid grid--2">
+            <article class="card">
+              <h3 class="card__title">Тип и объем</h3>
+              <p class="card__text">
+                Лендинг — одна страница и один сценарий. Каталог с тысячей позиций требует
+                структуры, фильтров и выгрузки данных: это другая работа, а не «та же, но больше».
+              </p>
+            </article>
+
+            <article class="card">
+              <h3 class="card__title">Что готово с вашей стороны</h3>
+              <p class="card__text">
+                Готовые тексты, логотип и фотографии заметно снижают итог. Если этого нет — работу
+                берем на себя и считаем отдельной строкой, чтобы вы видели, за что платите.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3 class="card__title">Сроки</h3>
+              <p class="card__text">
+                Срочный проект двигает очередь и требует параллельной работы, поэтому стоит дороже.
+                Спокойный график, наоборот, дает небольшую скидку.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3 class="card__title">Интеграции</h3>
+              <p class="card__text">
+                Онлайн-оплата,CRM, службы доставки, 1С. Каждая интеграция — это отдельная настройка
+                и тестирование, они считаются сверх базы.
+              </p>
+            </article>
+          </div>
+
+          <div class="price-scope">
+            <p class="price-included">
+              <strong>Входит всегда, без доплат:</strong> адаптив под телефоны и планшеты, базовая
+              настройка для поиска, подключение Яндекс.Метрики, передача исходников и доступов,
+              договор с фиксированной сметой.
+            </p>
+
+            <p class="price-extra">
+              <strong>Считается отдельно:</strong> интеграции с 1С, CRM и складским учетом,
+              личные кабинеты и авторизация, нестандартные калькуляторы и конфигураторы,
+              мультиязычность, нетиповые модули под вашу задачу. Оцениваем на брифе и выносим
+              в смету отдельной строкой, чтобы вы видели, за что платите.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           СРАВНЕНИЕ — та же таблица, что на главной
+           ============================================================ -->
+      <section class="section section--gray">
+        <div class="container">
+          <header class="section__head">
+            <h2 class="section__title">Почему <span class="accent">столько</span></h2>
+            <p class="section__lead">
+              Мы дороже фрилансера и дешевле агентства. Вот что стоит за этой разницей.
+            </p>
+          </header>
+
+          <div class="compare">
+            <table class="compare__table">
+              <caption class="visually-hidden">
+                Сравнение условий работы: агентство, фрилансер и мы
+              </caption>
+              <thead>
+                <tr>
+                  <td class="compare__corner"></td>
+                  <th scope="col">Агентство</th>
+                  <th scope="col">Фрилансер</th>
+                  <th scope="col" class="compare__us">Мы</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Цена</th>
+                  <td>Самая высокая</td>
+                  <td>Самая низкая</td>
+                  <td class="compare__us">Средняя — без наценки за содержание студии</td>
+                </tr>
+                <tr>
+                  <th scope="row">Кто на связи</th>
+                  <td>Аккаунт-менеджер</td>
+                  <td>Сам исполнитель, когда освободится</td>
+                  <td class="compare__us">Менеджер проекта</td>
+                </tr>
+                <tr>
+                  <th scope="row">Договор</th>
+                  <td>Да</td>
+                  <td>Как договоритесь</td>
+                  <td class="compare__us">Да</td>
+                </tr>
+                <tr>
+                  <th scope="row">Сроки</th>
+                  <td>Фиксируются</td>
+                  <td>Часто плавают</td>
+                  <td class="compare__us">Фиксируются в договоре</td>
+                </tr>
+                <tr>
+                  <th scope="row">Исходники</th>
+                  <td>Обычно в конце проекта</td>
+                  <td>По договоренности</td>
+                  <td class="compare__us">После каждого этапа</td>
+                </tr>
+                <tr>
+                  <th scope="row">Если исполнитель выбыл</th>
+                  <td>Заменят внутри команды</td>
+                  <td>Проект встает</td>
+                  <td class="compare__us">Подстрахуем подрядчиком</td>
+                </tr>
+                <tr>
+                  <th scope="row">Масштаб команды</th>
+                  <td>Большой штат</td>
+                  <td>Один человек</td>
+                  <td class="compare__us">Ядро из двух + подрядчики</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           FAQ ПО ДЕНЬГАМ
+           ============================================================ -->
+      <section class="section" id="faq">
+        <div class="container container--narrow">
+          <header class="section__head">
+            <h2 class="section__title">Вопросы про деньги</h2>
+            <p class="section__lead">
+              То, о чем спрашивают до старта. Отвечаем без общих фраз.
+            </p>
+          </header>
+
+          <div class="faq" id="faq-list">
+            <details class="faq__item">
+              <summary class="faq__question">
+                Как устроена оплата?
+                <span class="faq__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="faq__answer">
+                <p>
+                  По этапам. Каждый этап оплачивается отдельно, и после него вы получаете результат
+                  и доступы. Если решите остановиться — остаетесь с тем, за что заплатили.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__question">
+                А если смета вырастет в процессе?
+                <span class="faq__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="faq__answer">
+                <p>
+                  Сумма фиксируется в договоре после брифа и не меняется. Дороже станет только
+                  если вы сами добавите работы сверх согласованного — и мы заранее назовем цену.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__question">
+                Почему у фрилансера дешевле?
+                <span class="faq__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="faq__answer">
+                <p>
+                  Потому что один человек и обычно без договора. Это рабочий вариант, если проект
+                  простой и вы готовы сами вести процесс. Мы стоим дороже за счет менеджера,
+                  договора и передачи исходников по этапам.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item">
+              <summary class="faq__question">
+                Есть ли абонентская плата?
+                <span class="faq__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="faq__answer">
+                <p>
+                  Нет. Сайт ваш, хостинг оформляется на вас. Поддержка — по желанию и отдельным
+                  соглашением, а не обязательной подпиской.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================
+         ФУТЕР (FOOTER)
+         ============================================================ -->
+    <footer class="footer" id="contacts">
+      <div class="container footer__inner">
+        <div class="footer__col footer__col--brand">
+          <a class="logo logo--footer" href="../" aria-label="Тандем.Web — на главную">
+            <span class="logo__mark" aria-hidden="true">Т</span>
+            <span class="logo__text">Тандем<span class="logo__accent">.Web</span></span>
+          </a>
+          <p class="footer__about">
+            Постоянное ядро — разработчик и менеджер. Работаем без агентских наценок.
+          </p>
+        </div>
+
+        <nav class="footer__col" aria-label="Навигация в подвале">
+          <h3 class="footer__title">Навигация</h3>
+          <ul class="footer__list">
+            <li><a class="footer__link" href="../#services">Услуги</a></li>
+            <li><a class="footer__link" href="./">Цены</a></li>
+            <li><a class="footer__link" href="../#about">О нас</a></li>
+            <li><a class="footer__link" href="../#process">Как мы работаем</a></li>
+            <li><a class="footer__link" href="../#faq">Частые вопросы</a></li>
+            <li><a class="footer__link" href="#quiz">Контакты</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer__col">
+          <h3 class="footer__title">Контакты</h3>
+          <ul class="footer__list">
+            <li><a class="footer__link" href="https://t.me/" target="_blank" rel="noopener">Telegram</a></li>
+            <li><a class="footer__link" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a class="footer__link" href="mailto:hello@tandem.web">hello@tandem.web</a></li>
+          </ul>
+          <p class="footer__legal">
+            ИП Фамилия И.О.<br />
+            ОГРНИП 000000000000000
+          </p>
+        </div>
+      </div>
+
+      <div class="container footer__bottom">
+        <p class="footer__copy">© 2026 Тандем.Web. Все права защищены.</p>
+        <a class="footer__link footer__link--muted" href="/privacy">Политика конфиденциальности</a>
+      </div>
+    </footer>
+
+    <!-- Модальное окно заявки из шапки -->
+    <dialog class="modal" id="lead-modal" aria-labelledby="lead-modal-title">
+      <div class="modal__box">
+        <button class="modal__close" type="button" data-modal-close aria-label="Закрыть окно">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+            <path
+              d="M2 2l14 14M16 2L2 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <h2 class="modal__title" id="lead-modal-title">Оставить заявку</h2>
+        <p class="modal__subtitle">
+          Менеджер свяжется, задаст пару вопросов по проекту и назовет вилку цены. Это займет
+          около 5 минут.
+        </p>
+
+        <form
+          class="lead-form lead-form--modal"
+          id="lead-modal-form"
+          action="#"
+          method="post"
+          novalidate
+        >
+          <fieldset class="channel">
+            <legend class="channel__legend">Как с вами связаться</legend>
+            <div class="channel__options">
+              <label class="channel__option">
+                <input class="channel__input" type="radio" name="channel" value="phone" checked />
+                <span class="channel__label">Телефон</span>
+              </label>
+              <label class="channel__option">
+                <input class="channel__input" type="radio" name="channel" value="telegram" />
+                <span class="channel__label">Telegram</span>
+              </label>
+              <label class="channel__option">
+                <input class="channel__input" type="radio" name="channel" value="max" />
+                <span class="channel__label">MAX</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="lead-form__row">
+            <label class="field">
+              <span class="field__label">Имя</span>
+              <input
+                class="field__input"
+                type="text"
+                name="name"
+                placeholder="Как к вам обращаться"
+                autocomplete="name"
+                required
+              />
+            </label>
+
+            <label class="field">
+              <span class="field__label" data-contact-label>Телефон</span>
+              <input
+                class="field__input"
+                data-contact
+                type="tel"
+                name="contact"
+                placeholder="+7 (___) ___ __ __"
+                inputmode="tel"
+                autocomplete="tel"
+                maxlength="18"
+                required
+              />
+            </label>
+          </div>
+
+          <button class="btn btn--accent btn--lg btn--block" type="submit">Отправить заявку</button>
+
+          <p class="work-status" data-work-status>
+            <span class="work-status__dot" aria-hidden="true"></span>
+            <span class="work-status__text">
+              Связываемся в течение 15 минут в рабочее время
+            </span>
+          </p>
+
+          <p class="lead-form__note">
+            Нажимая кнопку, вы соглашаетесь с
+            <a class="lead-form__policy" href="/privacy">политикой конфиденциальности</a>.
+          </p>
+        </form>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/js/prices.js"></script>
+  </body>
+</html>

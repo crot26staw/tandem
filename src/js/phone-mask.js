@@ -2,15 +2,22 @@
  * Маска телефона в формате +7 (___) ___ __ __
  * Источник истины — 10 национальных цифр; строка пересобирается на каждый ввод,
  * поэтому вставка из буфера и правка в середине не ломают формат.
+ *
+ * Маску можно выключить: в форме переключается канал связи, и для ника
+ * в Telegram форматирование номера только мешает.
+ * Возвращает { enable, disable } либо null, если поля нет.
  */
 const PREFIX = '+7 (';
 const MAX_DIGITS = 10;
 
 export function initPhoneMask(input) {
-  if (!input) return;
+  if (!input) return null;
+
+  let enabled = true;
 
   // Ставим префикс, чтобы было видно, куда печатать
   input.addEventListener('focus', () => {
+    if (!enabled) return;
     if (!input.value) {
       input.value = PREFIX;
       setCaret(input, input.value.length);
@@ -19,10 +26,13 @@ export function initPhoneMask(input) {
 
   // Пустой префикс не оставляем: иначе placeholder не виден, а поле «не пустое»
   input.addEventListener('blur', () => {
+    if (!enabled) return;
     if (!nationalDigits(input.value)) input.value = '';
   });
 
   input.addEventListener('input', (event) => {
+    if (!enabled) return;
+
     const raw = input.value;
     const caret = raw.length;
     let digits = nationalDigits(raw);
@@ -42,6 +52,16 @@ export function initPhoneMask(input) {
     input.value = format(digits);
     setCaret(input, caretFor(input.value, before));
   });
+
+  return {
+    enable() {
+      enabled = true;
+    },
+    disable() {
+      enabled = false;
+      delete input.dataset.digits; // иначе логика backspace помнит старый номер
+    },
+  };
 }
 
 /** Номер введен полностью (все 10 цифр) */

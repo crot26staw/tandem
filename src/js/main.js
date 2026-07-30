@@ -4,6 +4,7 @@ import { initLeadForm } from './lead-form.js';
 import { initReveal } from './reveal.js';
 import { initModal } from './modal.js';
 import { initTilt } from './tilt.js';
+import { initWorkHours } from './work-hours.js';
 
 initNav();
 initFaq();
@@ -11,3 +12,4 @@ initLeadForm();
 initReveal();
 initModal();
 initTilt();
+initWorkHours();
